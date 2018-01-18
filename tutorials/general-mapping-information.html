@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+    table, th, td {
+    border: 1px solid gray;
+    border-collapse: collapse;
+    padding: 0 5px;
+}
+    tr:nth-child(even) {
+    background-color: #dddddd;
+}
+    .common-tex-item {
+    margin-bottom: 15px;
+}
+    .common-tex-image {
+    display: inline-block;
+    width: 80px;
+    vertical-align: middle;
+    text-align: center;
+}
+    .common-tex-content {
+    width: 700px;
+    display: inline-block;
+    vertical-align: middle;
+}
+    #toc_container {
+    background: #f9f9f9 none repeat scroll 0 0;
+    border: 1px solid gray;
+    display: table;
+    float: right;
+    margin-bottom: 1em;
+    margin-left: 1em;
+    padding-right: 1em;
+}
+    .toc_title {
+    font-weight: 700;
+    text-align: center;
+}
+    #toc_container li, #toc_container ul, #toc_container ul li {
+    list-style: disc none none;
+}
+</style>
+</head>
+<link rel="stylesheet" href="../styles/site.css">
+<body>
+<main>
+    <h1>General mapping information</h1>
+
+    <div id="toc_container">
+        <p class="toc_title">Contents</p>
+            <ul class="toc_list">
+                <li><a href="#player_sizes">1 Player sizes</a></li>
+                <li><a href="#movement">2 Movement</a></li>
+                    <ul>
+                        <li><a href="#speed">2.1 Speed</a></li>
+                        <li><a href="#stepup">2.2 Stepup</a></li>
+                        <li><a href="#jump_height">2.3 Jump height</a></li>
+                        <li><a href="#jump_timing">2.4 Jump timing</a></li>
+                    </ul>
+                <li><a href="#fall_damage">3 Fall damage</a></li>
+                    <ul>
+                        <li><a href="#falling">3.1 Falling</a></li>
+                        <li><a href="#jumping">3.2 Jumping</a></li>
+                    </ul>
+                <li><a href="#map_limits">4 Map limits</a></li>
+                    <ul>
+                        <li><a href="#compiler_limits">4.1 Compiler limits</a></li>
+                        <li><a href="#engine_limits">4.2 Engine limits</a></li>
+                    </ul>
+                <li><a href="#common_errors">5 Common errors and warnings</a></li>
+                <li><a href="#common_shaders">6 Common shaders</a></li>
+                    <ul>
+                        <li><a href="#stock_et">6.1 Stock ET</a></li>
+                        <li><a href="#etjump">6.2 ETJump</a></li>
+                    </ul>
+            </ul>
+    </div>
+
+    <p>This page contains general information, limits and sizes that are useful to know when mapping for ETJump. All measurements assume <code>pmove_fixed 1</code> and <code>com_maxfps 125</code> unless stated otherwise.</p>
+
+    <h2 id="player_sizes">Player sizes</h2>
+
+    <ul>
+        <li>Player model size (bbox) - <b>36x36x72</b> (XYZ)</li>
+            <ul>
+                <li>This is the size of <code>info_player_deathmatch</code> entity.</li>
+            </ul>
+        <li>Minimum horizontal clearance - <b>37 units</b></li>
+        <li>Minimum vertical clearance</li>
+            <ul>
+                <li>Standing - <b>73 units</b></li>
+                <li>Crouching - <b>49 units</b></li>
+                <li>Proning - <b>41 units</b></li>
+                <li>Jumping - <b>121 units</b></li>
+            </ul>
+    </ul>
+
+    <h2 id="movement">Movement</h2>
+
+    <h3 id="speed">Speed</h3>
+
+    <h4>Ground</h4>
+
+    <table>
+        <tr>
+            <th>Style</th>
+            <th>Max speed (units/s)</th> 
+        </tr>
+        <tr>
+            <td>Sprint</td>
+            <td>352</td>
+        </tr>
+        <tr>
+            <td>Run</td>
+            <td>256</td>
+        </tr>
+        <tr>
+            <td>Walk</td>
+            <td>129</td>
+        </tr>
+        <tr>
+            <td>Crouch</td>
+            <td>80</td>
+        </tr>
+        <tr>
+            <td>Prone</td>
+            <td>67</td>
+        </tr>
+        <tr>
+            <td>Groundstrafe</td>
+            <td>452</td>
+        </tr>
+        <tr>
+            <td>Wallstrafe</td>
+            <td>442</td>
+        </tr>
+    </table>
+
+    <h4>Water</h4>
+
+    <p>If water level is < half of your height (stance dependant), you are still walking normally but your speed is clamped to <b>267 units/s</b>.</p>
+
+    <p><i>Following values assume axial yaw. Non-axial yaw can provide higher speeds.</i></p>
+
+    <ul>
+        <li>Swimming in water - <b>160 units/s</b></li>
+            <ul>
+                <li>With <b>35.5</b> degree pitch, its possible to swim in water at <b>195 units/s</b>.</li>
+            </ul>
+        <li>Swimming on water surface - <b>196 units/s</b></li>
+            <ul>
+                <li>Assuming <b>0</b> pitch, water bobbing, pitch and yaw affect this. Possible to achieve <b>~235 units/s</b>.</li>
+            </ul>
+    </ul>
+
+    <h3 id="stepup">Stepup</h3>
+
+    <p>Stepup happens when you are moving against a vertical wall and are within <b>18 units</b> (vertically) of the top surface. Stepup doesn't happen if the wall is angled towards you from the bottom, unless the top surface is a seperate brush. The angle of the top does not matter, as long as it's not angleslick.</p>
+
+    <p><img src="images/general-mapping-information/stepup.png" alt="When stepup can happen" title="When stepup can happen"><br>
+        <i>When stepup can happen, jumping direction from left to right.</i></p>
+
+    <h3 id="jump_height">Jump height</h3>
+
+    <ul>
+        <li><code>pmove_fixed 1</code> - <b>66 units</b> (48 units jump + 18 units stepup)</li>
+        <li><code>pmove_fixed 0</code> - see table below</li>
+    </ul>
+    
+    <table>
+        <tr>
+            <th>FPS</th>
+            <th>Height (excl. stepup)</th>
+            <th>Height (incl. stepup)</th>
+        </tr>
+        <tr>
+            <td>< 125</td>
+            <td>45</td>
+            <td>63</td>
+        </tr>
+        <tr>
+            <td>125/333</td>
+            <td>46</td>
+            <td>64</td>
+        </tr>
+        <tr>
+            <td>250</td>
+            <td>43</td>
+            <td>61</td>
+        </tr>
+        <tr>
+            <td>500</td>
+            <td>54</td>
+            <td>72</td>
+        </tr>
+        <tr>
+            <td>1000</td>
+            <td>36</td>
+            <td>54</td>
+        </tr>
+    </table>
+
+    <h3 id="jump_timing">Jump timing</h3>
+
+    <p><i>Note: due to </i><code>pmove_msec 8</code><i>, all jump timings have <b>+/- 8ms</b> margin of error.</i></p>
+
+    <ul>
+        <li>Jump delay - <b>850ms</b></li>
+        <li>Flat ground jump - <b>712ms</b></li>
+        <li>41 unit jump - <b>848ms</b></li>
+            <ul>
+                <li>This is the minimum height difference between gamma pads.</li>
+            </ul>
+        <li>64 unit jump - <b>904ms</b></li>
+    </ul>
+
+    <h2 id="fall_damage">Fall damage</h2>
+
+    <p>Fall damage is calculated from falling speed, not height. These measurements assume flat ground to flat ground with standard gravity.</p>
+
+    <h3 id="falling">Falling</h3>
+
+    <table>
+        <tr>
+            <th>Fall damage</th>
+            <th>Max height</th>
+        </tr>
+        <tr>
+            <td>0 hp</td>
+            <td>258 units</td>
+        </tr>
+        <tr>
+            <td>5 hp</td>
+            <td>320 units</td>
+        </tr>
+        <tr>
+            <td>7 hp</td>
+            <td>386 units</td>
+        </tr>
+        <tr>
+            <td>12 hp</td>
+            <td>446 units</td>
+        </tr>
+        <tr>
+            <td>25 hp</td>
+            <td>513 units</td>
+        </tr>
+        <tr>
+            <td>Death</td>
+            <td>>514 units</td>
+        </tr>
+    </table>
+
+    <h3 id="jumping">Jumping</h3>
+
+    <table>
+        <tr>
+            <th>Fall damage</th>
+            <th>Max height</th>
+        </tr>
+        <tr>
+            <td>0 hp</td>
+            <td>209 units</td>
+        </tr>
+        <tr>
+            <td>5 hp</td>
+            <td>271 units</td>
+        </tr>
+        <tr>
+            <td>7 hp</td>
+            <td>337 units</td>
+        </tr>
+        <tr>
+            <td>12 hp</td>
+            <td>398 units</td>
+        </tr>
+        <tr>
+            <td>25 hp</td>
+            <td>464 units</td>
+        </tr>
+        <tr>
+            <td>Death</td>
+            <td>>464 units</td>
+        </tr>
+    </table>
+
+    <h2 id="map_limits">Map limits</h2>
+
+    <h3 id="compiler_limits">Compiler limits</h3>
+
+    <ul>
+        <li>Maximum amount of surfaces - <b>131072</b></li>
+            <ul>
+                <li>Compiler error - <i>MAX_MAP_DRAW_SURFS (131072) exceeded</i></li>
+                <li>Any visible surface in the map counts towards this limit.</li>
+            </ul>
+        <li>Maximum size of VIS data - <b>2MB</b></li>
+        <ul>
+            <li>Compiler error - <i>MAX_MAP_VISIBILITY exceeded</i></li>
+            <li>Common error with gamma maps. Q3map2 creates BSP splits every 1024 units, unless worldspawn key <code>_blocksize</code> is adjusted. Use 0 to stop q3map2 from automatically creating splits in large open areas.</li>
+        </ul>
+        <li>Maximum amount of T-Junctions - <b>65536</b></li>
+        <ul>
+            <li>Compiler error - <i>MAX_EDGE_LINES</i></li>
+            <li>T-Junction is created when a vertex is placed along an edge. Because all surfaces are chopped into triangles, this forces q3map2 to create an extra split on a surface to connect the vertex to other vertices. In the picture below, T-Junctions are highlighted with green circles. The top row is incorrectly made, while the bottom row is correctly made.<br>
+            <img src="images/general-mapping-information/tjunc.jpg" alt="tjunc_example" title="4 T-Juncs at top, none at bottom">
+            </li>
+        </ul>
+    </ul>
+
+    <h3 id="engine_limits">Engine limits</h3>
+
+    <ul>
+        <li>Maximum amount of entites - <b>1024</b></li>
+            <ul>
+                <li>Game crash - <i>G_Spawn: no free entities</i></li>
+                <li>Some of these are reserved for the game.</li>
+                <li>The actual limit for map to be playable is <b>949</b>, but because the game creates entities on runtime (grenades, bodies, medpacks etc.) you should always leave some headroom.</li>
+            </ul>
+        <li>Maximum amount of brush entities - <b>255</b></li>
+            <ul>
+                <li>Game crash - <i>CG_RegisterGraphics: Too many inline models: N</i></li>
+                <li>These count towards standard entity limit.</li>
+            </ul>
+        <li>Maximum amount of remapped shader - <b>32</b></li>
+            <ul>
+                <li>Game crash - <i>G_FindConfigstringIndex: overflow</i></li>
+                <li>This is the amount of unique shaders reserved for remapping on the map.</li>
+            </ul>
+        <li>Maximum amount of misc_gamemodels - <b>1024</b></li>
+            <ul>
+                <li>Game crash - <i>G_FindConfigstringIndex: overflow</i></li>
+                <li>This assumes static misc_gamemodels.</li>
+                <li>Non-static misc_gamemodels count towards standard entity limit.</li>
+            </ul>
+        <li>Maximum amount of sounds - <b>255</b></li>
+            <ul>
+                <li>Game crash - <i>G_FindConfigstringIndex: overflow</i></li>
+                <li>This is the amount of unique sounds referenced by the map.</li>
+            </ul>
+    </ul>
+
+    <h2 id="common_errors">Common errors and warnings</h2>
+
+    <ul>
+        <li>******* Leaked *******</li>
+            <ul>
+                <li>Your map has a hole into void. If it looks like the red line indicating the leak spot goes straight through a structural brush, make sure the shader on the brush doesn't have <code>surfaceparm trans</code>.</li>
+            </ul>
+        <li>Entity N, Brush N: duplicate plane</li>
+            <ul>
+                <li>Happens when two faces are combined into one by edge or vertex editing. Use brush cleanup to fix.</li>
+            </ul>
+        <li>Entity N, Brush N: degenerate plane</li>
+            <ul>
+                <li>Happens sometimes when 2 vertices of same face are very close to each other (under 1 unit) due to usage of clipper. Use brush cleanup to fix; often deletes the brush and you have to recreate it.</li>
+            </ul>
+        <li>BaseWindingForPlaneAccu: no dominant axis found because normal is too short</li>
+            <ul>
+                <li>Related to degenerate plane error. Use brush cleanup to fix.</li>
+            </ul>
+        <li>Entity N, Brush N: degenerate patch</li>
+            <ul>
+                <li>This can often happen when capping patches. This always happens when you try to cap a cone; Radiant creates a 0x0 cap at the sharp end of the cone, which is a degenerate patch. Delete the patch by selecting it via the error window or by going to Misc -> Find brush... and entering the correct entity/brush number.</li>
+            </ul>
+        <li>Backwards tree volume</li>
+            <ul>
+                <li>All brushes in your map are detail brushes.</li>
+            </ul>
+        <li>SV_SetBrushModel: NULL</li>
+            <ul>
+                <li>Most likely cause for this is an improper usage of a special shader in an entity. For example, using an <code>origin</code> shader for <code>trigger_multiple</code> entity causes this error. Another cause is corrupted brushwork in a brush entity, which can be fixed with brush cleanup.</li>
+            </ul>
+
+    </ul>
+
+    <h2 id="common_shaders">Common shaders</h2>
+
+    <p>This list contains common shaders that are useful for ETJump mapping. This is not a comprenesive list; it only includes stuff thats relevant and actually works. Clip shaders for example have variations with different surface sounds, but they are self-explanatory and are not listed here.</p>
+
+    <h3 id="stock_et">Stock ET</h3>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/antiportal.jpg" alt="antiportal" title="antiportal">
+        </div>
+        <div class="common-tex-content">
+            <b>ANTIPORTAL</b> - Combines <code>areaportal</code> and <code>hint</code> into a single shader. Difficult concept to understand (don't understand it myself fully either). Use in conjunction with <code>skip</code>. Some talk about their usage <a href="https://www.quake3world.com/forum/viewtopic.php?f=10&t=38399">here</a> and <a href="https://www.quake3world.com/forum/viewtopic.php?f=10&t=37317">here</a>.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/areaportal.jpg" alt="areaportal" title="areaportal">
+        </div>
+        <div class="common-tex-content">
+            <b>AREAPORTAL</b> - Blocks VIS by culling everything behind it. Must be placed inside door entities to work. Use in conjunction with <code>skip</code>.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/caulk.jpg" alt="caulk" title="caulk">
+        </div>
+        <div class="common-tex-content">
+            <b>CAULK</b> - Solid, invisible surface. Generally any surface not visible to player should be caulk.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/clip.jpg" alt="clip" title="clip">
+        </div>
+        <div class="common-tex-content">
+            <b>CLIP</b> - Invisible surface that blocks player movement but lets everything else through. Used for smoothing out movement and to block non-playable areas.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/clipmissile.jpg" alt="clipmissile" title="clipmissile">
+        </div>
+        <div class="common-tex-content">
+            <b>CLIPMISSILE</b> - Invisible surface that blocks players, projectiles and entities, but lets bullets through.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/clipweap.jpg" alt="clipweap" title="clipweap">
+        </div>
+        <div class="common-tex-content">
+            <b>CLIPWEAP</b> - Invisible surface that blocks everything.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/cushion.jpg" alt="cushion" title="cushion">
+        </div>
+        <div class="common-tex-content">
+            <b>CUSHION</b> - Solid surface that disables fall damage.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/hint.jpg" alt="hint" title="hint">
+        </div>
+        <div class="common-tex-content">
+            <b>HINT</b> - Structural surface that creates a portal to force a split in PVS. Use in conjunction with <code>skip</code>.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/skip.jpg" alt="skip" title="skip">
+        </div>
+        <div class="common-tex-content">
+            <b>SKIP</b> - Structural surface that doesn't create a split in PVS. When placing <code>hint</code> brushes, use this on every surface where you don't want a portal to be created.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/skip.jpg" alt="hintskip" title="hintkip">
+        </div>
+        <div class="common-tex-content">
+            <b>HINTSKIP</b> - Same as <code>skip</code>, but filters with <code>hint</code> in Radiant.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/ladder.jpg" alt="ladder" title="ladder">
+        </div>
+        <div class="common-tex-content">
+            <b>LADDER</b> - Surface that players can grab onto and climb. Note that ladders don't work if vertical angle is under 45 degrees.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/lightgrid.jpg" alt="lightgrid" title="lightgrid">
+        </div>
+        <div class="common-tex-content">
+            <b>LIGHTGRID</b> - Defines the area included in lightgrid calculation. Lightgrid has a block limit; this can be used to exclude unnecessary areas from it and shrink each block.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/nodraw.jpg" alt="nodraw" title="nodraw">
+        </div>
+        <div class="common-tex-content">
+            <b>NODRAW</b> - Invisible, nonsolid surface. Explicitly marked as a detail brush.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/nodrawnonsolid.jpg" alt="nodrawnonsolid" title="nodrawnonsolid">
+        </div>
+        <div class="common-tex-content">
+            <b>NODRAWNONSOLID</b> - Same as <code>nodraw</code>, but doesn't explicitly make the brush detail.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/nodrawwater.jpg" alt="nodrawwater" title="nodrawwater">
+        </div>
+        <div class="common-tex-content">
+            <b>NODRAWWATER</b> - Applies water properties to a brush. Use on non-visible faces of water brushes.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/nodrop.jpg" alt="nodrop" title="nodrop">
+        </div>
+        <div class="common-tex-content">
+            <b>NODROP</b> - Entities inside this brush disappear when they touch the ground.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/origin.jpg" alt="origin" title="origin">
+        </div>
+        <div class="common-tex-content">
+            <b>ORIGIN</b> - Used to define origin point for various brush entities. The center of the brush will become the origin of the entity.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/slick.jpg" alt="slick" title="slick">
+        </div>
+        <div class="common-tex-content">
+            <b>SLICK</b> - Solid, slippery surface.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/trigger.jpg" alt="trigger" title="trigger">
+        </div>
+        <div class="common-tex-content">
+            <b>TRIGGER</b> - Used for trigger entities.
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+
+    <h3 id="etjump">ETJump</h3>
+
+    <p>If you don't see these shaders in Radiant, make sure you have the latest ETJump mapping assets, available <a href="https://github.com/etjump/mapping">here</a>.</p>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/nodrawslag.jpg" alt="nodrawslag" title="nodrawslag">
+        </div>
+        <div class="common-tex-content">
+            <b>NODRAWSLAG</b> - Same as <code>nodrawwater</code>, except has slightly lower acceleration scale (0.3 vs 0.5). This is technically a stock shader, but it's not shipped with Radiant.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/nosave.jpg" alt="nosave" title="nosave">
+        </div>
+        <div class="common-tex-content">
+            <b>NOSAVE</b> - Players cannot save inside this brush.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/overbounce.jpg" alt="overbounce" title="overbounce">
+        </div>
+        <div class="common-tex-content">
+            <b>OVERBOUNCE</b> - Players cannot OB on this surface.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/portalsurface.jpg" alt="portalsurface" title="portalsurface">
+        </div>
+        <div class="common-tex-content">
+            <b>PORTALSURFACE</b> - Players cannot shoot portals this surface.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/slickcushion.jpg" alt="slickcushion" title="slickcushion">
+        </div>
+        <div class="common-tex-content">
+            <b>SLICKCUSHION</b> - Surface that both disables fall damage and is slippery.
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>
