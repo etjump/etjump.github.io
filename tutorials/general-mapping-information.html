@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ETJump - General mapping information</title>
 <style>
     table, th, td {
     border: 1px solid gray;
@@ -83,6 +83,8 @@
 
     <h2 id="player_sizes">Player sizes</h2>
 
+    <p>Values are rounded to integers to match grid in Radiant. Actual values for clearances can be lower, as long as they are still bigger than the bbox.</p>
+
     <ul>
         <li>Player model size (bbox) - <b>36x36x72</b> (XYZ)</li>
             <ul>
@@ -122,6 +124,10 @@
             <td>129</td>
         </tr>
         <tr>
+            <td>Walk + sprint</td>
+            <td>177</td>
+        </tr>
+        <tr>
             <td>Crouch</td>
             <td>80</td>
         </tr>
@@ -150,6 +156,10 @@
             <ul>
                 <li>With <b>35.5</b> degree pitch, its possible to swim in water at <b>195 units/s</b>.</li>
             </ul>
+        <li>Wallstrafing in water - <b>174 units/s</b></li>
+            <ul>
+                <li>Pitch has no effect when wallstrafing.</li>
+            </ul>
         <li>Swimming on water surface - <b>196 units/s</b></li>
             <ul>
                 <li>Assuming <b>0</b> pitch, water bobbing, pitch and yaw affect this. Possible to achieve <b>~235 units/s</b>.</li>
@@ -158,9 +168,9 @@
 
     <h3 id="stepup">Stepup</h3>
 
-    <p>Stepup happens when you are moving against a vertical wall and are within <b>18 units</b> (vertically) of the top surface. Stepup doesn't happen if the wall is angled towards you from the bottom, unless the top surface is a seperate brush. The angle of the top does not matter, as long as it's not angleslick.</p>
+    <p>Stepup happens when you are moving against a vertical wall and are within <b>18 units</b> (vertically) of the top surface. Stepup doesn't happen if the wall is angled towards you from the bottom, unless the top surface is a seperate brush.</p>
 
-    <p><img src="images/general-mapping-information/stepup.png" alt="When stepup can happen" title="When stepup can happen"><br>
+    <p><img src="images/general-mapping-information/stepup.png" alt="stepup_example" title="When stepup can happen"><br>
         <i>When stepup can happen, jumping direction from left to right.</i></p>
 
     <h3 id="jump_height">Jump height</h3>
@@ -203,9 +213,11 @@
         </tr>
     </table>
 
+    <p>If the top of the brush you are trying to jump onto is angled, it's possible to jump onto higher surfaces than these. The angle of the top matters; maximum values (with <code>pmove_fixed 1</code> and <code>com_maxfps 125</code>) are <b>76 units</b> for a standard jump, and <b>87 units</b> for a backwards prone jump, when the top is at <b>45 degree</b> angle.</p>
+
     <h3 id="jump_timing">Jump timing</h3>
 
-    <p><i>Note: due to </i><code>pmove_msec 8</code><i>, all jump timings have <b>+/- 8ms</b> margin of error.</i></p>
+    <p><i>Note: due to </i><code>pmove_msec 8</code><i>, all jump timings have <b>+/- 8ms</b> margin of error. The times here represent the elapsed time between jumping and landing.</i></p>
 
     <ul>
         <li>Jump delay - <b>850ms</b></li>
@@ -287,6 +299,8 @@
         </tr>
     </table>
 
+    <p>When you take fall damage from a fall/jump, the game applies knockback event on you (slick physics). This lasts for <b>1000ms</b> for every fall damage event, except for 12hp falls, where it only lasts for <b>250ms</b>.</p>
+
     <h2 id="map_limits">Map limits</h2>
 
     <h3 id="compiler_limits">Compiler limits</h3>
@@ -323,6 +337,7 @@
         <li>Maximum amount of brush entities - <b>255</b></li>
             <ul>
                 <li>Game crash - <i>CG_RegisterGraphics: Too many inline models: N</i></li>
+                <li>Brush entities are stuff such as <code>script_mover</code>, <code>trigger_multiple</code> and <code>func_static</code>.</li>
                 <li>These count towards standard entity limit.</li>
             </ul>
         <li>Maximum amount of remapped shader - <b>32</b></li>
@@ -558,7 +573,7 @@
 
     <h3 id="etjump">ETJump</h3>
 
-    <p>If you don't see these shaders in Radiant, make sure you have the latest ETJump mapping assets, available <a href="https://github.com/etjump/mapping">here</a>.</p>
+    <p>If you don't see these shaders in Radiant, make sure you have the latest ETJump mapping assets, available <a href="https://github.com/etjump/mapping">here</a>. <code>nosave</code>, <code>overbounce</code> and <code>portalsurface</code> shader functionality can be reversed with worldspawn keys.</p>
 
     <div class="common-tex-item">
         <div class="common-tex-image">
@@ -592,7 +607,7 @@
             <img src="images/general-mapping-information/portalsurface.jpg" alt="portalsurface" title="portalsurface">
         </div>
         <div class="common-tex-content">
-            <b>PORTALSURFACE</b> - Players cannot shoot portals this surface.
+            <b>PORTALSURFACE</b> - Players cannot shoot portals on this surface.
         </div>
     </div>
 
