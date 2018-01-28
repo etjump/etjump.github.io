@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ETJump - Using multiple skyboxes on a map</title>
 </head>
 <link rel="stylesheet" href="../styles/site.css">
 <body>
@@ -55,66 +55,65 @@
     <p>First, let's take a look at the 4 sky shader we used in our map (found in fueldump.shader, skies.shader and
         skies_sd.shader).</p>
 
-    <p>```
-        //Fueldump Sky</p>
+    <pre><code>//Fueldump Sky
 
-    <pre><code>textures/fueldump/fueldumpsky
-        {
-        qer_editorimage textures/skies/fueldump_clouds.tga
-        q3map_lightrgb 0.8 0.9 1.0
-        q3map_skylight 85 3
-        q3map_sun 1 .95 .9 200 210 28
-        skyparms - 200 -
-        surfaceparm nodlight
-        surfaceparm noimpact
-        surfaceparm nolightmap
-        surfaceparm sky
-        {
+textures/fueldump/fueldumpsky
+{
+    qer_editorimage textures/skies/fueldump_clouds.tga
+    q3map_lightrgb 0.8 0.9 1.0
+    q3map_skylight 85 3
+    q3map_sun 1 .95 .9 200 210 28
+    skyparms - 200 -
+    surfaceparm nodlight
+    surfaceparm noimpact
+    surfaceparm nolightmap
+    surfaceparm sky
+    {
         map textures/skies/fueldump_clouds.tga
         rgbGen identity
-        }
-        {
+    }
+    {
         map textures/skies/fueldump_clouds.tga
         blendfunc blend
         rgbGen identity
         tcMod scroll 0.0005 0.00
         tcMod scale 2 1
-        }
-        }
+    }
+}
 
-        //Goldrush Sky
+//Goldrush Sky
 
-        textures/skies/sd_goldrush
-        {
-        qer_editorimage textures/skies/sky_8.tga
-        q3map_skylight 65 3
-        q3map_sun 0.3 0.3 0.45 60 35 45
-        nocompress
-        skyparms - 200 -
-        sunshader textures/skies_sd/full_moon2
-        surfaceparm noimpact
-        surfaceparm nolightmap
-        surfaceparm sky
+textures/skies/sd_goldrush
+{
+    qer_editorimage textures/skies/sky_8.tga
+    q3map_skylight 65 3
+    q3map_sun 0.3 0.3 0.45 60 35 45
+    nocompress
+    skyparms - 200 -
+    sunshader textures/skies_sd/full_moon2
+    surfaceparm noimpact
+    surfaceparm nolightmap
+    surfaceparm sky
 
-        skyparms textures/skies_sd/wurzburg_env/sky 512 -
+    skyparms textures/skies_sd/wurzburg_env/sky 512 -
 
 
-        {   fog off
+    {   fog off
         map textures/skies_sd/goldrush_clouds.tga
         tcMod scale 5 5
         tcMod scroll 0.0015 -0.003
         rgbGen identityLighting
-        }
+    }
 
 
-        {   fog off
+    {   fog off
         map textures/skies/nightsky1.jpg
         tcMod scale 10 10
         blendfunc add
         rgbGen identityLighting
-        }
+    }
 
-        {
+    {
         fog off
         clampmap textures/skies_sd/goldrush_mask.tga
         blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
@@ -123,91 +122,91 @@
         // rgbGen identityLighting
         //rgbGen const ( 0.6 0.6 0.6 )
         rgbGen const ( 0.4 0.4 0.4 )
-        }
-        }
+    }
+}
 
-        //Radar Sky
+//Radar Sky
 
-        textures/skies/sd_wurzburgsky
-        {
-        nocompress
-        qer_editorimage textures/skies/sky_8.tga
-        q3map_lightimage textures/skies/n_blue2.tga
-        q3map_nofog
-        q3map_globaltexture
-        q3map_lightsubdivide 256
-        q3map_sun 0.130 0.080 0.020 20 165 5
-        q3map_sun 0.281 0.288 0.370 80 35 40
-        q3map_sun 0.281 0.288 0.370 15 215 60
-        q3map_sun 0.281 0.288 0.370 10 35 50
-        q3map_sun 0.281 0.288 0.370 10 35 45
-        q3map_sun 0.281 0.288 0.370 10 35 35
-        q3map_sun 0.281 0.288 0.370 10 35 30
-        q3map_sun 0.281 0.288 0.370 10 40 40
-        q3map_sun 0.281 0.288 0.370 10 45 40
-        q3map_sun 0.281 0.288 0.370 10 30 40
-        q3map_sun 0.281 0.288 0.370 10 25 40
-        q3map_surfacelight 30
+textures/skies/sd_wurzburgsky
+{
+    nocompress
+    qer_editorimage textures/skies/sky_8.tga
+    q3map_lightimage textures/skies/n_blue2.tga
+    q3map_nofog
+    q3map_globaltexture
+    q3map_lightsubdivide 256
+    q3map_sun 0.130 0.080 0.020 20 165 5
+    q3map_sun 0.281 0.288 0.370 80 35 40
+    q3map_sun 0.281 0.288 0.370 15 215 60
+    q3map_sun 0.281 0.288 0.370 10 35 50
+    q3map_sun 0.281 0.288 0.370 10 35 45
+    q3map_sun 0.281 0.288 0.370 10 35 35
+    q3map_sun 0.281 0.288 0.370 10 35 30
+    q3map_sun 0.281 0.288 0.370 10 40 40
+    q3map_sun 0.281 0.288 0.370 10 45 40
+    q3map_sun 0.281 0.288 0.370 10 30 40
+    q3map_sun 0.281 0.288 0.370 10 25 40
+    q3map_surfacelight 30
 
-        surfaceparm noimpact
-        surfaceparm nolightmap
-        surfaceparm sky
+    surfaceparm noimpact
+    surfaceparm nolightmap
+    surfaceparm sky
 
-        skyparms - 512 -
-        sunshader textures/skies_sd/small_moon
+    skyparms - 512 -
+    sunshader textures/skies_sd/small_moon
 
-        {
+    {
         map textures/skies_sd/wurzburg_clouds.tga
         tcMod scale 2.5 2.5
         tcMod scroll 0.003 -0.0015
         rgbGen identityLighting
-        }
-        {
+    }
+    {
         map textures/skies_sd/ydnar_lightning.tga
         blendFunc GL_SRC_ALPHA GL_ONE
         rgbGen wave triangle -8 9 0 0.137
         alphaGen wave noise -3 4 0 2.37
         tcMod scale 3 3
         tcMod scroll 0.003 -0.0015
-        }
-        {
+    }
+    {
         clampmap textures/skies_sd/wurzburg_fogmask.tga
         blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
         tcMod scale 0.956 0.956
         tcMod transform 1 0 0 1 -1 -1
         rgbGen identitylighting
-        }
-        }
+    }
+}
 
-        //Oasis Sky
+//Oasis Sky
 
-        textures/skies_sd/sd_siwasky
-        {
-        nocompress
-        qer_editorimage textures/skies_sd/nero_bluelight.tga
-        q3map_lightimage textures/skies_sd/siwa_clouds.tga
+textures/skies_sd/sd_siwasky
+{
+    nocompress
+    qer_editorimage textures/skies_sd/nero_bluelight.tga
+    q3map_lightimage textures/skies_sd/siwa_clouds.tga
 
-        q3map_sun 0.75 0.70 0.6 135 199 49
-        q3map_skylight 75 3
-        sunshader textures/skies_sd/siwasunbright
+    q3map_sun 0.75 0.70 0.6 135 199 49
+    q3map_skylight 75 3
+    sunshader textures/skies_sd/siwasunbright
 
-        surfaceparm noimpact
-        surfaceparm nolightmap
-        surfaceparm nodlight
-        surfaceparm sky
+    surfaceparm noimpact
+    surfaceparm nolightmap
+    surfaceparm nodlight
+    surfaceparm sky
 
-        skyparms textures/skies_sd/wurzburg_env/sky 512 -
+    skyparms textures/skies_sd/wurzburg_env/sky 512 -
 
-        {
+    {
         fog off
         clampmap textures/skies_sd/siwa_mask.tga
         tcMod scale 0.956 0.956
         tcMod transform 1 0 0 1 -1 -1
         rgbGen identityLighting
 
-        }
-        }
-    </code></pre>
+    }
+}</code></pre>
+
 
     <p>If you are unfamiliar with shaders, you might want to take a moment to look at the <a
             href="http://robotrenegade.com/q3map2/docs/shader_manual/contents.html" title="Q3Map2 Shader manual">Q3Map2
@@ -218,46 +217,35 @@
         exactly which directives in the shaders produce light. The shader manual helps us out here. These directives in
         sky shaders affect the lighting in our map (not all of them are used in these shaders obviously):</p>
 
-    <p><code>
-        q3map_lightimage
-        q3map_lightmapAxis
-        q3map_lightmapBrightness
-        q3map_lightmapFilterRadius
-        q3map_lightmapGamma
-        q3map_lightmapMergable
-        q3map_lightmapSampleOffset
-        q3map_lightmapSampleSize
-        q3map_lightmapSize
-        q3map_lightrgb
-        q3map_lightStyle
-        q3map_lightSubdivide
-        q3map_noFast
-        q3map_skylight
-        q3map_sun
-        q3map_sunExt
-        q3map_surfacelight
-    </code></p>
+    <pre><code>q3map_lightimage
+q3map_lightmapFilterRadius
+q3map_lightRGB
+q3map_lightSubdivide
+q3map_noFast
+q3map_skylight
+q3map_sun
+q3map_sunExt
+q3map_surfacelight</code></pre>    
 
     <p>In general we don't need to worry that much about most of these, as they just modify the lighting instead of
-        producing it. The most commonly seen directives that actually produce light are q3map_skylight, q3map_sun,
-        q3map_sunExt and q3map_surfacelight in conjunction with q3map_lightSubdivide. To understand what these do, read
+        producing it. The most commonly seen directives that actually produce light are <code>q3map_skylight</code>, <code>q3map_sun</code>,
+        <code>q3map_sunExt</code> and <code>q3map_surfacelight</code> in conjunction with <code>q3map_lightSubdivide</code>. To understand what these do, read
         the descriptions of them in the shader manual.</p>
 
     <p>Now that we know which directives we need to modify, it's time to start editing the shaders. First, we create a
         shader file that includes the skies used in our map. Next, we change the paths of the shaders so that we don't
         mess up the original sky shaders in the game. So for example, I renamed the shaders as following:</p>
 
-    <p><code>
-        textures/skytut/fueldump
-        textures/skytut/goldrush
-        textures/skytut/radar
-        textures/skytut/oasis
-    </code></p>
+    <pre><code>textures/skytut/fueldump
+textures/skytut/goldrush
+textures/skytut/radar
+textures/skytut/oasis</code></pre>
+    
 
     <p>Now we need to comment out every light producing directive in every shader except for one, which is going to be
-        the only shader that produces light in the map. I chose Fueldump sky shader to produce light into the map, and
-        commented out every light producing directive in the rest of the shaders. Now, in the map with 4 identical rooms
-        each with different sky shader, here is the room with Oasis sky.</p>
+        the only shader that produces light in the map. Another option is to change the intensity values of the light-producing shaders to 0.
+        I chose Fueldump sky shader to produce light into the map, and commented out every light producing directive in
+        the rest of the shaders. Now, in the map with 4 identical rooms each with different sky shader, here is the room with Oasis sky.</p>
 
     <p><img src="images/using-multiple-skyboxes-on-a-map/C69Lp6v.jpg" alt="New lighting in Oasis" title=""/></p>
 
@@ -284,9 +272,9 @@
         <li>Sunshaders should be commented out as well, since they are global for the whole map so they appear even on
             skies that have no sunshader directive.
         </li>
-        <li>Light produced by q3map_sun or q3map_sunExt's intensity value falls off with angle, but not distance.</li>
-        <li>In general, it's recommended to use a combination of q3map_sunExt, q3map_lightmapFilterRadius and
-            q3map_skylight to produce light on sky shader. Refer to the light emitting shaders article on shader manual
+        <li>Light produced by <code>q3map_sun</code> and <code>q3map_sunExt</code> falls off with angle, but not distance.</li>
+        <li>In general, it's recommended to use a combination of <code>q3map_sunExt</code>, <code>q3map_lightmapFilterRadius</code> and
+            <code>q3map_skylight</code> to produce light on sky shader. Refer to the light emitting shaders article on shader manual
             mentioned earlier.
         </li>
     </ul>
