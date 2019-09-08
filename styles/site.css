@@ -173,10 +173,7 @@ header {
 }
 
 #logo {
-    display: inline-block;
-    height: 120px;
-    vertical-align: top;
-    width: 120px;
+    width: 300px;
 }
 
 header h1 {
