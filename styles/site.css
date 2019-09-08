@@ -4,6 +4,14 @@ a strong {
     color: inherit;
 }
 
+a {
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: black;
+}
+
 hr {
     background: none;
     border: none;
@@ -176,20 +184,20 @@ header h1 {
     font-weight: 300;
 }
 
-header a {
+nav a {
     border: 1px solid #77E848;
     border-radius: 290486px;
     color: #77E848;
-    font-size: 0.6em;
-    letter-spacing: 0.2em;
-    padding: 1em 2em;
+    font-size: 0.8em;
+    letter-spacing: 0.18em;
+    padding: 1em 1.5em;
     text-transform: uppercase;
     text-decoration: none;
     transition: none 200ms ease-out;
     transition-property: color, background;
 }
 
-header a:hover {
+nav a:hover {
     background: #77E848;
     color: white;
 }
@@ -337,6 +345,50 @@ footer .button {
     padding: 20px;
 }
 
+#links-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 50%);
+}
+
+#links-block ul {
+    padding-left: 15px;
+}
+
+#links-block h2 {
+    margin-top: 10px;
+    padding-top: 0;
+}
+
+#links-block > div {
+    padding: 10px;
+    border: 1px solid #efefef;
+}
+
+#links-block > div:nth-child(1) {
+    grid-column: 1 / 2;
+    border-right: none;
+}
+
+#links-block > div:nth-child(2) {
+    grid-column: 2 / 2;
+}
+
+#links-block > div:nth-child(3) {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    border-top: none;
+}
+
+.mtb40 {
+    margin: 40px 0;
+}
+
+.grid-2-3 {
+    display: grid; 
+    grid-template-columns: 60% 40%; 
+    grid-gap: 10px;
+}
+
 /* Responsiveness */
 
 @media (min-width: 600px) {
@@ -377,4 +429,5 @@ footer .button {
     .resource-icon {
         margin: 0 auto 1em;
     }
+
 }
