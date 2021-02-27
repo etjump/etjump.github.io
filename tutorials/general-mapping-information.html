@@ -243,28 +243,28 @@
             <th>Max height</th>
         </tr>
         <tr>
-            <td>0 hp</td>
+            <td>0 HP</td>
             <td>258 units</td>
         </tr>
         <tr>
-            <td>5 hp</td>
+            <td>10 HP</td>
             <td>320 units</td>
         </tr>
         <tr>
-            <td>7 hp</td>
+            <td>15 HP</td>
             <td>386 units</td>
         </tr>
         <tr>
-            <td>12 hp</td>
+            <td>25 HP</td>
             <td>446 units</td>
         </tr>
         <tr>
-            <td>25 hp</td>
+            <td>50 HP</td>
             <td>513 units</td>
         </tr>
         <tr>
             <td>Death</td>
-            <td>>514 units</td>
+            <td>>513 units</td>
         </tr>
     </table>
 
@@ -276,23 +276,23 @@
             <th>Max height</th>
         </tr>
         <tr>
-            <td>0 hp</td>
+            <td>0 HP</td>
             <td>209 units</td>
         </tr>
         <tr>
-            <td>5 hp</td>
+            <td>10 HP</td>
             <td>271 units</td>
         </tr>
         <tr>
-            <td>7 hp</td>
+            <td>15 HP</td>
             <td>337 units</td>
         </tr>
         <tr>
-            <td>12 hp</td>
+            <td>25 HP</td>
             <td>398 units</td>
         </tr>
         <tr>
-            <td>25 hp</td>
+            <td>50 HP</td>
             <td>464 units</td>
         </tr>
         <tr>
@@ -301,13 +301,20 @@
         </tr>
     </table>
 
-    <p>When you take fall damage from a fall/jump, the game applies knockback event on you (slick physics). This lasts for <b>1000ms</b> for every fall damage event, except for 12hp falls, where it only lasts for <b>250ms</b>.</p>
+    <p>Note that because ETJump uses adrenaline to give unlimited sprint (if <code>etj_nofatigue</code> is used), all fall damage is halved & rounded down. When you take fall damage from a fall/jump, the game applies knockback event on you (slick physics). This lasts for <b>1000ms</b> for every fall damage event, except for 25hp falls, where it only lasts for <b>250ms</b>.</p>
 
     <h2 id="map_limits">Map limits</h2>
 
     <h3 id="compiler_limits">Compiler limits</h3>
 
+    <p>These limits might be different depending on the variant of Q3map2 used.</p>
+
     <ul>
+        <li>Maximum amount of brushes - <b>32768</b></li>
+            <ul>
+                <li>Compiler error - <i>MAX_MAP_BRUSHES (32768)</i></li>
+                <li>This limit is not present on all Q3map2 variants.</li>
+            </ul>
         <li>Maximum amount of surfaces - <b>131072</b></li>
             <ul>
                 <li>Compiler error - <i>MAX_MAP_DRAW_SURFS (131072) exceeded</i></li>
@@ -459,7 +466,7 @@
             <img src="images/general-mapping-information/cushion.jpg" alt="cushion" title="cushion">
         </div>
         <div class="common-tex-content">
-            <b>CUSHION</b> - Solid surface that disables fall damage.
+            <b>CUSHION</b> - Solid surface that disables fall damage. Functionality can be reversed with a <code>nofalldamage</code> worldspawn key.
         </div>
     </div>
 
@@ -575,7 +582,25 @@
 
     <h3 id="etjump">ETJump</h3>
 
-    <p>If you don't see these shaders in Radiant, make sure you have the latest ETJump mapping assets, available <a href="https://github.com/etjump/mapping">here</a>. <code>nosave</code>, <code>overbounce</code> and <code>portalsurface</code> shader functionality can be reversed with worldspawn keys.</p>
+    <p>If you don't see these shaders in Radiant, make sure you have the latest ETJump mapping assets, available <a href="https://github.com/etjump/mapping">here</a>. <code>nodelay</code>, <code>noprone</code>, <code>nosave</code>, <code>overbounce</code> and <code>portalsurface</code> shader functionality can be reversed with worldspawn keys.</p>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/nodelay.jpg" alt="nodelay" title="nodelay">
+        </div>
+        <div class="common-tex-content">
+            <b>NODELAY</b> - Players landing on this surface are not affected by jump delay.
+        </div>
+    </div>
+
+    <div class="common-tex-item">
+        <div class="common-tex-image">
+            <img src="images/general-mapping-information/noprone.jpg" alt="noprone" title="noprone">
+        </div>
+        <div class="common-tex-content">
+            <b>NODELAY</b> - Players cannot prone inside this brush.
+        </div>
+    </div>
 
     <div class="common-tex-item">
         <div class="common-tex-image">
