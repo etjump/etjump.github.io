@@ -1,6 +1,6 @@
-# etjump.com
+# ETJump website
 
-This repository contains all necessary frontend assets and markup files for `etjump.com` website.  
+This repository contains all necessary frontend assets and markup files for [ETJump website](https://etjump.github.io/).
 
 ## Adding custom trickjump or mapping tutorials on the website
 
