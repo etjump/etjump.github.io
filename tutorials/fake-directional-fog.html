@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>ETJump - Fake directional fog</title>
+    <link rel="stylesheet" href="../styles/site.css">
 </head>
-<link rel="stylesheet" href="../styles/site.css">
+
+
 <body>
-<main>
+    <img src="images/moon.png" id="theme-toggler">
+    <main>
 
-    <h1>Fake directional fog</h1>
+        <h1>Fake directional fog</h1>
 
-    <p>This tutorial teaches how to create fake, static directional fog by using <code>whiteimage</code> and alpha blending. The advantage with this is that the fog always looks the same, regardless of players position of viewangles; standard fog in ET is distance based with linear fade. Because of this, it's basically unusable for creating fogpits and such, because the player can often be far enough away from the fog that it turns fully opaque without any fading. To fix this, the fog shaders distance to opaque parameter would need to be increased, which leads it to look bad when viewed close up.</p>
-    
-    <p>This tutorial assumes you have basic knowledge on shaders: what they are and how to create them. It's recommended to check <a href="http://robotrenegade.com/q3map2/docs/shader_manual/contents.html">shader manual</a> for shader directives used here if you are unfamiliar with them.</p>
+        <p>This tutorial teaches how to create fake, static directional fog by using <code>whiteimage</code> and alpha
+            blending. The advantage with this is that the fog always looks the same, regardless of players position of
+            viewangles; standard fog in ET is distance based with linear fade. Because of this, it's basically unusable
+            for creating fogpits and such, because the player can often be far enough away from the fog that it turns
+            fully opaque without any fading. To fix this, the fog shaders distance to opaque parameter would need to be
+            increased, which leads it to look bad when viewed close up.</p>
 
-    <p>If you aren't familiar with the concept of alpha blending, check out Sock's tutorial <a href="http://www.simonoc.com/pages/articles/terrain2_1.htm">here</a>.</p>
+        <p>This tutorial assumes you have basic knowledge on shaders: what they are and how to create them. It's
+            recommended to check <a href="http://robotrenegade.com/q3map2/docs/shader_manual/contents.html">shader
+                manual</a> for shader directives used here if you are unfamiliar with them.</p>
 
-    <p>If you don't have alphamod shaders, you can grab them at <a href="https://github.com/etjump/mapping">ETJump mapping repository</a>.</p>
+        <p>If you aren't familiar with the concept of alpha blending, check out Sock's tutorial <a
+                href="http://www.simonoc.com/pages/articles/terrain2_1.htm">here</a>.</p>
 
-    <p>You can grab the source files used in this tutorial <a href="sourcefiles/fakefog_tut.zip">here</a>.</p>
+        <p>If you don't have alphamod shaders, you can grab them at <a href="https://github.com/etjump/mapping">ETJump
+                mapping repository</a>.</p>
 
-    <h2>Standard fading fog</h2>
+        <p>You can grab the source files used in this tutorial <a href="sourcefiles/fakefog_tut.zip">here</a>.</p>
 
-    <p>By using <code>whiteimage</code>, a solid white texture can be applied on top of a surface. With <code>rgbGen</code> and alphamod brushes, it can be recolored and used to create fading effect on surfaces which are touching the fog.</p>
+        <h2>Standard fading fog</h2>
 
-    <img src="images/fake-directional-fog/standard_fog_example.jpg" alt="standard_fog_example" title="Standard fog fade">
+        <p>By using <code>whiteimage</code>, a solid white texture can be applied on top of a surface. With
+            <code>rgbGen</code> and alphamod brushes, it can be recolored and used to create fading effect on surfaces
+            which are touching the fog.
+        </p>
 
-    <p>In the picture above, the walls and floor of the pit are fogged using <code>whiteimage</code> and alpha blending. The shaders look like this:</p>
+        <img src="images/fake-directional-fog/standard_fog_example.jpg" alt="standard_fog_example"
+            title="Standard fog fade">
 
-    <pre><code>// Standard fogged surfaces
+        <p>In the picture above, the walls and floor of the pit are fogged using <code>whiteimage</code> and alpha
+            blending. The shaders look like this:</p>
+
+        <pre><code>// Standard fogged surfaces
 
 textures/fakefog_tut/concrete_m05c_fog
 {
@@ -73,17 +91,27 @@ textures/fakefog_tut/concrete_c07bcmp_fog
 }
 </code></pre>
 
-    <p><code>whiteimage</code> creates a solid white image on top of the surface. It is then faded using alphamod brushes and <code>blendFunc</code> and <code>alphaGen</code> shader directives. Lastly, the color is changed using <code>rgbGen</code>. <code>surfaceparm nomarks</code> is used to prevent bullet holes in the fog, as it would look silly.</p>
+        <p><code>whiteimage</code> creates a solid white image on top of the surface. It is then faded using alphamod
+            brushes and <code>blendFunc</code> and <code>alphaGen</code> shader directives. Lastly, the color is changed
+            using <code>rgbGen</code>. <code>surfaceparm nomarks</code> is used to prevent bullet holes in the fog, as
+            it would look silly.</p>
 
-    <p>It's important to note that the <code>whiteimage</code> is the last stage of the shader. This is because alphamod brushes modify the vertex alpha of the last texture map stage. In Radiant, the surfaces affected by the fog and alphamod brushes are grouped into <code>func_group</code>. This is to prevent the alphamod brushes affecting any other surfaces than the group they belong to. Note that if you want the fog to turn fully opaque at the bottom, it's not necessary to cover the bottom vertices with an alphamod brush, since the <code>whiteimage</code> doesn't have alpha channel.</p>
-    
-    <img src="images/fake-directional-fog/standard_fog_example_radiant.png" alt="standard_fog_example_radiant" title="Standard fog fade done in Radiant">
+        <p>It's important to note that the <code>whiteimage</code> is the last stage of the shader. This is because
+            alphamod brushes modify the vertex alpha of the last texture map stage. In Radiant, the surfaces affected by
+            the fog and alphamod brushes are grouped into <code>func_group</code>. This is to prevent the alphamod
+            brushes affecting any other surfaces than the group they belong to. Note that if you want the fog to turn
+            fully opaque at the bottom, it's not necessary to cover the bottom vertices with an alphamod brush, since
+            the <code>whiteimage</code> doesn't have alpha channel.</p>
 
-    <h2>Fog with surfacelight</h2>
+        <img src="images/fake-directional-fog/standard_fog_example_radiant.png" alt="standard_fog_example_radiant"
+            title="Standard fog fade done in Radiant">
 
-    <p>If you want the fog to emit light, first create the fogged area with the standard fog surface shaders as shown above. Then, create a new shader that's used to emit light.</p>
+        <h2>Fog with surfacelight</h2>
 
-    <pre><code>// Surfacelight "fill" shader
+        <p>If you want the fog to emit light, first create the fogged area with the standard fog surface shaders as
+            shown above. Then, create a new shader that's used to emit light.</p>
+
+        <pre><code>// Surfacelight "fill" shader
 
 textures/fakefog_tut/fog_surfacelight
 {
@@ -103,21 +131,37 @@ textures/fakefog_tut/fog_surfacelight
 }
 </code></pre>
 
-    <p>In this shader, <code>whiteimage</code> is set to fully transparent with <code>alphaGen const 0.0</code>. Light is produced with <code>q3map_surfaceLight</code> and the color is set using <code>q3map_lightImage</code>. Color can also be set with <code>q3map_lightRGB</code>, however it doesn't affect radiosity light, while lightimage does. The lightimage is just a small texture, colored to match the color of the fog. It's not necessary to explicitly set <code>q3map_lightImage</code> or <code>q3map_lightRGB</code>; if neither are present, light color is sampled from editor image, which can be made to match the color of the fog. It's also recommended to set <code>cull none</code> to create more uniform lighting.</p>
+        <p>In this shader, <code>whiteimage</code> is set to fully transparent with <code>alphaGen const 0.0</code>.
+            Light is produced with <code>q3map_surfaceLight</code> and the color is set using
+            <code>q3map_lightImage</code>. Color can also be set with <code>q3map_lightRGB</code>, however it doesn't
+            affect radiosity light, while lightimage does. The lightimage is just a small texture, colored to match the
+            color of the fog. It's not necessary to explicitly set <code>q3map_lightImage</code> or
+            <code>q3map_lightRGB</code>; if neither are present, light color is sampled from editor image, which can be
+            made to match the color of the fog. It's also recommended to set <code>cull none</code> to create more
+            uniform lighting.
+        </p>
 
-    <p>The reason for using whiteimage here at all is to prevent the surface showing as missing texture in game. <code>surfaceparm nodraw</code> cannot be used either, since <code>q3map_surfaceLight</code> doesn't work then.</p>
+        <p>The reason for using whiteimage here at all is to prevent the surface showing as missing texture in game.
+            <code>surfaceparm nodraw</code> cannot be used either, since <code>q3map_surfaceLight</code> doesn't work
+            then.
+        </p>
 
-    <p>Create a brush that fills the entire fogged area. Texture the top of this brush with the surfacelight shader, and rest with <code>nodraw</code>.</p>
+        <p>Create a brush that fills the entire fogged area. Texture the top of this brush with the surfacelight shader,
+            and rest with <code>nodraw</code>.</p>
 
-    <p><img src="images/fake-directional-fog/surfacelight_fog_example_radiant.png" alt="surfacelight_fog_example_radiant" title="Fog with surfacelight done in Radiant"></p>
-    
-    <p><img src="images/fake-directional-fog/surfacelight_fog_example.jpg" alt="surfacelight_fog_example" title="Fog with surfacelight"></p>
+        <p><img src="images/fake-directional-fog/surfacelight_fog_example_radiant.png"
+                alt="surfacelight_fog_example_radiant" title="Fog with surfacelight done in Radiant"></p>
 
-    <h2>Fog with texture</h2>
+        <p><img src="images/fake-directional-fog/surfacelight_fog_example.jpg" alt="surfacelight_fog_example"
+                title="Fog with surfacelight"></p>
 
-    <p>Creating fog with textured top follows the same principle as fog with surfacelight. Create the fogged area normally, then create a brush that fills the fogged area. Create a shader that has the texture you want to show.</p>
+        <h2>Fog with texture</h2>
 
-    <pre><code>// Textured fog
+        <p>Creating fog with textured top follows the same principle as fog with surfacelight. Create the fogged area
+            normally, then create a brush that fills the fogged area. Create a shader that has the texture you want to
+            show.</p>
+
+        <pre><code>// Textured fog
 
 textures/fakefog_tut/fog_texture
 {
@@ -142,32 +186,45 @@ textures/fakefog_tut/fog_texture
 }
 </code></pre>
 
-    <p>This shader doesn't really have anything special. If you want it to emit light, just add <code>q3map_surfaceLight</code> and optionally set the color using any of the methods described earlier.</p>
-    
-    <p><img src="images/fake-directional-fog/textured_fog_example_radiant.png" alt="textured_fog_example_radiant" title="Fog with texture done in Radiant"></p>
-    
-    <p><img src="images/fake-directional-fog/textured_fog_example.jpg" alt="textured_fog_example" title="Fog with texture"></p>
+        <p>This shader doesn't really have anything special. If you want it to emit light, just add
+            <code>q3map_surfaceLight</code> and optionally set the color using any of the methods described earlier.
+        </p>
 
-    <h2>Objects inside fog</h2>
+        <p><img src="images/fake-directional-fog/textured_fog_example_radiant.png" alt="textured_fog_example_radiant"
+                title="Fog with texture done in Radiant"></p>
 
-    <p>This is where things get a bit tricky. If you have brushes that are fully inside the fogged area, they have to be faded seperately from the main area. Because the top/bottom vertices aren't necessarily on the same level as the main fogged area, some math is required to get the correct alpha values. The formula for calculating this is following:</p>
+        <p><img src="images/fake-directional-fog/textured_fog_example.jpg" alt="textured_fog_example"
+                title="Fog with texture"></p>
 
-    <code>alpha = (distanceFromTop / fogHeight) * bottomAlphaMod</code>
+        <h2>Objects inside fog</h2>
 
-    <p>A very simple way to get the correct alpha value is to use <a href="https://andrew.hedges.name/experiments/aspect_ratio/">aspect ratio calculator</a>. Using this tool, set fogHeight as W1, distanceFromTop as H1 and bottomAlphaMod as W2. H2 will be your correct alpha value.</p>
+        <p>This is where things get a bit tricky. If you have brushes that are fully inside the fogged area, they have
+            to be faded seperately from the main area. Because the top/bottom vertices aren't necessarily on the same
+            level as the main fogged area, some math is required to get the correct alpha values. The formula for
+            calculating this is following:</p>
 
-    <center><img src="images/fake-directional-fog/distance_from_top.jpg" alt="distance_from_top" title="Relevant distanceFromTop values"></center>
-        
-    <p>In the example map, bottomAlphaMod is set to 85%. Fogged area is 224 units high, and the relevant distanceFromTop values are pictured above. When inserted into the formula, it gives the following alpha values:</p>
+        <code>alpha = (distanceFromTop / fogHeight) * bottomAlphaMod</code>
 
-    <pre><code>(48 / 224) * 85 = 18
+        <p>A very simple way to get the correct alpha value is to use <a
+                href="https://andrew.hedges.name/experiments/aspect_ratio/">aspect ratio calculator</a>. Using this
+            tool, set fogHeight as W1, distanceFromTop as H1 and bottomAlphaMod as W2. H2 will be your correct alpha
+            value.</p>
+
+        <center><img src="images/fake-directional-fog/distance_from_top.jpg" alt="distance_from_top"
+                title="Relevant distanceFromTop values"></center>
+
+        <p>In the example map, bottomAlphaMod is set to 85%. Fogged area is 224 units high, and the relevant
+            distanceFromTop values are pictured above. When inserted into the formula, it gives the following alpha
+            values:</p>
+
+        <pre><code>(48 / 224) * 85 = 18
 (112 / 224) * 85 = 43
 (160 / 224) * 85 = 61 
 </code></pre>
-        
-    <p>Once the correct alpha values are calculated, create alphamod shaders with the corresponding values.</p>    
 
-    <pre><code>// Custom alphamod shaders
+        <p>Once the correct alpha values are calculated, create alphamod shaders with the corresponding values.</p>
+
+        <pre><code>// Custom alphamod shaders
 
 textures/fakefog_tut/alpha_018
 {
@@ -206,15 +263,22 @@ textures/fakefog_tut/alpha_061
 }
 </code></pre>
 
-    <p>Place the brushes inside the fog into a seperate <code>func_group</code> together with the alphamod brushes.</p>
+        <p>Place the brushes inside the fog into a seperate <code>func_group</code> together with the alphamod brushes.
+        </p>
 
-    <p><center><img src="images/fake-directional-fog/brushes_inside_fog_radiant.jpg" alt="brushes_inside_fog_radiant" title="Brushes inside fog grouped together with alphamod brushes"></center></p>
-    
-    <p><img src="images/fake-directional-fog/brushes_inside_fog.jpg" alt="brushes_inside_fog" title="Brushes inside fog"></p>
+        <p>
+            <center><img src="images/fake-directional-fog/brushes_inside_fog_radiant.jpg"
+                    alt="brushes_inside_fog_radiant" title="Brushes inside fog grouped together with alphamod brushes">
+            </center>
+        </p>
 
-    <p><em>Tutorial by Aciz</em></p>
-    
-</main>
+        <p><img src="images/fake-directional-fog/brushes_inside_fog.jpg" alt="brushes_inside_fog"
+                title="Brushes inside fog"></p>
 
+        <p><em>Tutorial by Aciz</em></p>
+
+    </main>
+    <script src="../scripts/theme-toggler-tutorial.js"></script>
 </body>
+
 </html>

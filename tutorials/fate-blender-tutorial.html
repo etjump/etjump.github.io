@@ -1,86 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>ETJump - Making letters in Blender</title>
+    <link rel="stylesheet" href="../styles/site.css">
 </head>
-<link rel="stylesheet" href="../styles/site.css">
+
 <body>
-<main>
-    <h1>Making letters in Blender</h1>
+    <img src="images/moon.png" id="theme-toggler">
+    <main>
+        <h1>Making letters in Blender</h1>
 
-    <p>This tutorial will teach you how to make simple letters for your map in Blender and export them as MD3 models, along with textures/shaders.</p>
+        <p>This tutorial will teach you how to make simple letters for your map in Blender and export them as MD3
+            models, along with textures/shaders.</p>
 
-    <h2>Getting started</h2>
+        <h2>Getting started</h2>
 
-    <p><ul>
-        <li>Download and install <a href="https://www.blender.org/download/" title="Blender">Blender</a>.</li>
-        <li>Open Blender, create a new General project.</li>
-        <li>Before starting, install the <a href="sourcefiles/io_export_md3.zip" title="MD3 Export Plugin">MD3 export plugin</a>.</li>
+        <p>
+        <ul>
+            <li>Download and install <a href="https://www.blender.org/download/" title="Blender">Blender</a>.</li>
+            <li>Open Blender, create a new General project.</li>
+            <li>Before starting, install the <a href="sourcefiles/io_export_md3.zip" title="MD3 Export Plugin">MD3
+                    export plugin</a>.</li>
             <ul>
                 <li>Unzip the file to a location of your choice.</li>
                 <li>In Blender, go to <code>Edit</code> -> <code>Preferences</code> -> <code>Add-ons</code></li>
-                <li>Select <code>Install...</code> at the top, browse to the extracted file and select <code>Install Add-on</code></li>
-                <li>Click on the checkbox next to the plugin to enable it. The plugin should now be visible under <code>File</code> -> <code>Export</code> -> <code>MD3 (+shaders)</code></li>
+                <li>Select <code>Install...</code> at the top, browse to the extracted file and select
+                    <code>Install Add-on</code>
+                </li>
+                <li>Click on the checkbox next to the plugin to enable it. The plugin should now be visible under
+                    <code>File</code> -> <code>Export</code> -> <code>MD3 (+shaders)</code>
+                </li>
             </ul>
-    </ul></p>
+        </ul>
+        </p>
 
-    <h2>Creating the letters</h2>
+        <h2>Creating the letters</h2>
 
-    <p><ul>
-        <li>Delete everything in <code>Scene Collection</code></li>
-        <img src="images/fate-blender-tutorial/1.png" alt="Delete eveything"/>
-        <li>Press <code>Add</code> button on top left or <code>Shift + A</code> and select <code>Text</code></li>
-        <li>Go to object data properties menu: green <code>a</code> symbol on right side menu.</li>
+        <p>
+        <ul>
+            <li>Delete everything in <code>Scene Collection</code></li>
+            <img src="images/fate-blender-tutorial/1.png" alt="Delete eveything" />
+            <li>Press <code>Add</code> button on top left or <code>Shift + A</code> and select <code>Text</code></li>
+            <li>Go to object data properties menu: green <code>a</code> symbol on right side menu.</li>
             <ul>
-                <li>Under <code>Paragraph</code> -> <code>Alignment</code>, set both <code>Horizontal</code> and <code>Vertical</code> alignment to <code>Center</code>.</li>
-                <li>Under <code>Font</code>, press the folder icon next to <code>Regular</code> text field and select your desired font.</li>
-                <li>Unless you want your text to be 2D (why?), go to <code>Geometry</code> and <code>Extrude</code> the text to your liking.</li>
+                <li>Under <code>Paragraph</code> -> <code>Alignment</code>, set both <code>Horizontal</code> and
+                    <code>Vertical</code> alignment to <code>Center</code>.
+                </li>
+                <li>Under <code>Font</code>, press the folder icon next to <code>Regular</code> text field and select
+                    your desired font.</li>
+                <li>Unless you want your text to be 2D (why?), go to <code>Geometry</code> and <code>Extrude</code> the
+                    text to your liking.</li>
                 <li>Hit <code>TAB</code> to edit your text.</li>
                 <li>Select <code>Object Mode</code> from the top left.</li>
-                <img src="images/fate-blender-tutorial/2.png" alt="Text manipulation"/>
+                <img src="images/fate-blender-tutorial/2.png" alt="Text manipulation" />
             </ul>
-    </ul></p>
+        </ul>
+        </p>
 
-    <p><ul>
-        <li>Right click on 3D window and select <code>Convert to Mesh</code>.</li>
-        <li>Under <code>Object Properties</code>, <code>Scale</code> section, pump it up like 40x.</li>
-        <img src="images/fate-blender-tutorial/3.png" alt="Scaling"/>
-    </ul></p>
-    
-    <h2>Texturing</h2>
+        <p>
+        <ul>
+            <li>Right click on 3D window and select <code>Convert to Mesh</code>.</li>
+            <li>Under <code>Object Properties</code>, <code>Scale</code> section, pump it up like 40x.</li>
+            <img src="images/fate-blender-tutorial/3.png" alt="Scaling" />
+        </ul>
+        </p>
 
-    <p><ul>
-        <li>Navigate to <code>Material Properties</code> menu, red ball thing on right side menu.</li>
-        <li>Hit <code>New</code> and press the small circle next to <code>Base Color</code> and select <code>Image texture</code>. Click the folder icon and find your desired texture.</li>
-        <li>Change the material name to match your texture / shader path. If using a shader, do not specify a file extension.</li>
-        <img src="images/fate-blender-tutorial/4.png" alt="Setting up materials"/>
-        <li>Select <code>UV Editing</code> tab at the top.</li>
+        <h2>Texturing</h2>
+
+        <p>
+        <ul>
+            <li>Navigate to <code>Material Properties</code> menu, red ball thing on right side menu.</li>
+            <li>Hit <code>New</code> and press the small circle next to <code>Base Color</code> and select
+                <code>Image texture</code>. Click the folder icon and find your desired texture.
+            </li>
+            <li>Change the material name to match your texture / shader path. If using a shader, do not specify a file
+                extension.</li>
+            <img src="images/fate-blender-tutorial/4.png" alt="Setting up materials" />
+            <li>Select <code>UV Editing</code> tab at the top.</li>
             <ul>
-                <li>On right side window press <code>A</code> to select everything, press the <code>UV</code> button at the top and select <code>Unwrap</code></li>
-                <li>If you want to scale the texture, press <code>A</code> -> <code>X</code> -> <code>S</code> on the left side window and move your mouse to scale.</li>
-                <img src="images/fate-blender-tutorial/5.png" alt="UV Mapping"/>                
+                <li>On right side window press <code>A</code> to select everything, press the <code>UV</code> button at
+                    the top and select <code>Unwrap</code></li>
+                <li>If you want to scale the texture, press <code>A</code> -> <code>X</code> -> <code>S</code> on the
+                    left side window and move your mouse to scale.</li>
+                <img src="images/fate-blender-tutorial/5.png" alt="UV Mapping" />
             </ul>
-        <li>Go back to the <code>Layout</code> tab at the top</li>
+            <li>Go back to the <code>Layout</code> tab at the top</li>
             <ul>
-                <li>Select <code>Modifier Properties</code> on the right, <code>Add Modifier</code> -> <code>Triangulate</code></li>
+                <li>Select <code>Modifier Properties</code> on the right, <code>Add Modifier</code> ->
+                    <code>Triangulate</code>
+                </li>
                 <li>At the bottom of the 3D view, there are animation controls; set <code>End</code> to <b>1</b></li>
-                <img src="images/fate-blender-tutorial/6.png" alt="Animation"/> 
+                <img src="images/fate-blender-tutorial/6.png" alt="Animation" />
             </ul>
-        <li>Make sure your object is selected, and go to <code>File</code> -> <code>Export</code> -> <code>MD3 (+shaders)</code></li>
-    </ul></p>
+            <li>Make sure your object is selected, and go to <code>File</code> -> <code>Export</code> ->
+                <code>MD3 (+shaders)</code>
+            </li>
+        </ul>
+        </p>
 
-    <h2>Results</h2>
+        <h2>Results</h2>
 
-    <p><img src="images/fate-blender-tutorial/7.png" alt="Result 1"></p>
-    
-    <p><img src="images/fate-blender-tutorial/8.png" alt="Result 2"></p>
+        <p><img src="images/fate-blender-tutorial/7.png" alt="Result 1"></p>
 
-    <p>&nbsp;</p>
+        <p><img src="images/fate-blender-tutorial/8.png" alt="Result 2"></p>
 
-    <p><em>Tutorial by Fate</em></p> 
+        <p>&nbsp;</p>
 
-</main>
+        <p><em>Tutorial by Fate</em></p>
 
+    </main>
+    <script src="../scripts/theme-toggler-tutorial.js"></script>
 </body>
+
 </html>
