@@ -20,7 +20,11 @@ if (theme) {
 }
 
 if (themeIcon) {
-    themeToggler.src = themeIcon;
+    if (themeIcon === 'moon') {
+        themeToggler.src = darkIcon;
+    } else {
+        themeToggler.src = lightIcon;
+    }
 } else {
     themeToggler.src = darkIcon;
 }
@@ -37,11 +41,11 @@ themeToggler.onclick = () => {
     if (document.body.classList.contains('dark')) {
         document.body.classList.replace('dark', 'light');
         upateSources(darkIcon, lightDiscordSrc);
-        updateLocalStorage('light', darkIcon, lightDiscordSrc);
+        updateLocalStorage('light', 'moon', lightDiscordSrc);
     } else {
         document.body.classList.replace('light', 'dark');
         upateSources(lightIcon, darkDiscordSrc);
-        updateLocalStorage('dark', lightIcon, darkDiscordSrc);
+        updateLocalStorage('dark', 'sun', darkDiscordSrc);
     }
 };
 

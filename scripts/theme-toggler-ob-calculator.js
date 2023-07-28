@@ -1,6 +1,6 @@
 // Constants
-const lightIcon = '../images/sun.png';
-const darkIcon = '../images/moon.png';
+const lightIcon = '../../images/sun.png';
+const darkIcon = '../../images/moon.png';
 const lightDiscordSrc = 'https://discordapp.com/widget?id=214090773237334017&theme=light';
 const darkDiscordSrc = 'https://discordapp.com/widget?id=214090773237334017&theme=dark';
 
