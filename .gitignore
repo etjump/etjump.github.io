@@ -1,2 +1,13 @@
 .idea
+.claude/
 builds/
+
+# Maps API
+maps-api/node_modules/
+maps-api/.env
+maps-api/data/
+storage/
+
+# Maps Web
+maps-web/node_modules/
+maps-web/dist/
