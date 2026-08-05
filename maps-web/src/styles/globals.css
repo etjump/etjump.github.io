@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply min-h-screen bg-neutral-900 text-neutral-100;
+}
+
+a {
+  @apply text-etjump hover:text-etjump-400 transition-colors;
+}
