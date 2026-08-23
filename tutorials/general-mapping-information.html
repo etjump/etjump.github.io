@@ -288,41 +288,35 @@
 
         <h3 id="compiler_limits">Compiler limits</h3>
 
-        <p>These limits might be different depending on the variant of Q3map2 used.</p>
+				<p>These limits are relevant when using the Q3Map2 bundled with NetRadiant-custom. Other Q3Map2 variants might have different limits.</p>
 
         <ul>
-            <li>Maximum amount of brushes - <b>32768</b></li>
-            <ul>
-                <li>Compiler error - <i>MAX_MAP_BRUSHES (32768)</i></li>
-                <li>This limit is not present on all Q3map2 variants.</li>
-            </ul>
             <li>Maximum amount of surfaces - <b>131072</b></li>
             <ul>
                 <li>Compiler error - <i>MAX_MAP_DRAW_SURFS (131072) exceeded</i></li>
                 <li>Any visible surface in the map counts towards this limit.</li>
+								<li>Soft limit - may be increased with <code>-maxmapdrawsurfs</code> compiler switch (common option).</li>
             </ul>
-            <li>Maximum size of VIS data - <b>2MB</b></li>
+						<li>Maximum size of VIS data - <b>32MB</b></li>
             <ul>
-                <li>Compiler error - <i>MAX_MAP_VISIBILITY exceeded</i></li>
-                <li>Common error with gamma maps. Q3map2 creates BSP splits every 1024 units, unless worldspawn key
-                    <code>_blocksize</code> is adjusted. Use 0 to stop q3map2 from automatically creating splits in
-                    large open areas.
-                </li>
+								<li>Compiler error - <i>MAX_MAP_VISIBILITY exceeded</i></li>
+								<li>Raw, uncompressed data written during compilation - the game does not care about this limit.</li>
+                <li>Common error with massive strafe maps. Q3Map2 creates BSP splits every 1024 units, unless worldspawn key
+									<code>_blocksize</code> is adjusted. If you run into this error, start gradually adjusting <code>_blocksize</code> to a higher value,
+									e.g. <b>2048</b> or <b>4096</b> (per-axis adjustments are also possible).
+								</li>
+								<li>Contrary to popular belief, setting <code>_blocksize 0</code> is <b>NOT</b> recommended to get around this.
+									While it helps with this error, it can have severe performance implications depending on the map. Only do this if you know what you're doing.
+								</li>
             </ul>
-            <li>Maximum amount of T-Junctions - <b>65536</b></li>
+						<li>Maximum number of VIS portals - <b>131072</b></li>
             <ul>
-                <li>Compiler error - <i>MAX_EDGE_LINES</i></li>
-                <li>T-Junction is created when a vertex is placed along an edge. Because all surfaces are chopped into
-                    triangles, this forces q3map2 to create an extra split on a surface to connect the vertex to other
-                    vertices. In the picture below, T-Junctions are highlighted with green circles. The top row is
-                    incorrectly made, while the bottom row is correctly made.<br>
-                    <img src="images/general-mapping-information/tjunc.jpg" alt="tjunc_example"
-                        title="4 T-Juncs at top, none at bottom">
-                </li>
+								<li>Compiler error - <i>MAX_PORTALS</i></li>
+								<li>Reduce the complexity of your map's VIS - badly created structural/detail brush setup is the most likely cause for this.</li>
             </ul>
         </ul>
 
-        <h3 id="engine_limits">Engine limits</h3>
+        <h3 id="engine_mod_limits">Engine/mod limits</h3>
 
         <ul>
             <li>Maximum amount of entites - <b>1024</b></li>
@@ -332,29 +326,50 @@
                 <li>The actual limit for map to be playable is <b>949</b>, but because the game creates entities on
                     runtime (grenades, bodies, medpacks etc.) you should always leave some headroom.</li>
             </ul>
-            <li>Maximum amount of brush entities - <b>255</b></li>
+						<li>Maximum amount of brush entities - <b>511</b></li>
             <ul>
-                <li>Game crash - <i>CG_RegisterGraphics: Too many inline models: N</i></li>
+                <li>Game crash - <i>MAX_SUBMODELS exceeded</i></li>
                 <li>Brush entities are stuff such as <code>script_mover</code>, <code>trigger_multiple</code> and
                     <code>func_static</code>.
                 </li>
                 <li>These count towards standard entity limit.</li>
+								<li>This used to 255, but was increased to the maximum supported by the engine in ETJump 3.3.2.</li>
             </ul>
-            <li>Maximum amount of remapped shader - <b>32</b></li>
+						<li>Maximum amount of networked shaders - <b>240</b></li>
             <ul>
-                <li>Game crash - <i>G_FindConfigstringIndex: overflow</i></li>
-                <li>This is the amount of unique shaders reserved for remapping on the map.</li>
+								<li>Game crash - <i>getShaderIndex: configstring overflow - MAX_SHADER_INDEX reached (%i), decrease the number of unique shaders referenced by mapscript and entities</i></li>
+								<li>This includes thing such as remapped shaders, custom shaders for <code>func_explosive</code> particles, <code>func_static_client offShader</code> etc.</li>
+								<li>This used to be <b>32</b>, but the limit was increased in ETJump 3.4.0</li>
             </ul>
             <li>Maximum amount of misc_gamemodels - <b>1024</b></li>
             <ul>
-                <li>Game crash - <i>G_FindConfigstringIndex: overflow</i></li>
-                <li>This assumes static misc_gamemodels.</li>
+                <li>Game crash - <i>MAX_STATIC_GAMEMODELS(1024) hit</i></li>
+                <li>This assumes static misc_gamemodels (no targetname, scriptname or spawnflags set).</li>
                 <li>Non-static misc_gamemodels count towards standard entity limit.</li>
             </ul>
             <li>Maximum amount of sounds - <b>255</b></li>
             <ul>
                 <li>Game crash - <i>G_FindConfigstringIndex: overflow</i></li>
                 <li>This is the amount of unique sounds referenced by the map.</li>
+            </ul>
+						<li>Maximum number of coronas - <b>1024</b></li>
+            <ul>
+                <li>Game crash - <i>SP_Corona: MAX_STATIC_CORONAS (1024) exceeded</i></li>
+                <li>This assumes static coronas (no targetname, scriptname or spawnflags set).</li>
+                <li>Non-static coronas count towards standard entity limit.</li>
+								<li>Renderer can only render up to 32 coronas simultaneously.</li>
+            </ul>
+						<li>Maximum number of dlights - <b>15/1024</b></li>
+            <ul>
+								<li>Game crash - <i>G_FindConfigstringIndex: overflow</i> or <i>SP_dlight: MAX_STATIC_DLIGHTS (1024) exceeded</i></li>
+								<li>15 is the limit for networked dlights, 1024 for static dlights (no targetname, scriptname or spawnflags set).</li>
+								<li>Networked dlights count towards standard entity limit.</li>
+								<li>Renderer can only render up to 32 dlights simultaneously.</li>
+            </ul>
+						<li>Maximum vertices on model - <b>1024</b></li>
+						<ul>
+								<li>Game crash - <i>R_LoadMD3/C: &lt;modelname&gt; has more than 1024 verts on a surface (&lt;number of verts&gt;)</i></li>
+								<li>Applies to mdc/md3 models spawned at runtime (misc_gamemodel, model2 key etc).</li>
             </ul>
         </ul>
 
