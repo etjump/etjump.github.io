@@ -306,7 +306,7 @@
 									e.g. <b>2048</b> or <b>4096</b> (per-axis adjustments are also possible).
 								</li>
 								<li>Contrary to popular belief, setting <code>_blocksize 0</code> is <b>NOT</b> recommended to get around this.
-									While it helps with this error, it can have severe performance implications depending on the map. Only do this if you know what you're doing.
+									While it helps with this error, it can severely hurt collision detection performance in your map. Only do this if you know what you're doing.
 								</li>
             </ul>
 						<li>Maximum number of VIS portals - <b>131072</b></li>
@@ -337,7 +337,7 @@
             </ul>
 						<li>Maximum amount of networked shaders - <b>240</b></li>
             <ul>
-								<li>Game crash - <i>getShaderIndex: configstring overflow - MAX_SHADER_INDEX reached (%i), decrease the number of unique shaders referenced by mapscript and entities</i></li>
+								<li>Game crash - <i>getShaderIndex: configstring overflow - MAX_SHADER_INDEX reached (240), decrease the number of unique shaders referenced by mapscript and entities</i></li>
 								<li>This includes thing such as remapped shaders, custom shaders for <code>func_explosive</code> particles, <code>func_static_client offShader</code> etc.</li>
 								<li>This used to be <b>32</b>, but the limit was increased in ETJump 3.4.0</li>
             </ul>
