@@ -1,0 +1,23 @@
+{
+  "name": "etjump-maps-api",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun src/db/migrate.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.31.0",
+    "hono": "^4.4.0",
+    "jszip": "^3.10.1",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "drizzle-kit": "^0.22.0",
+    "typescript": "^5.4.0"
+  }
+}
